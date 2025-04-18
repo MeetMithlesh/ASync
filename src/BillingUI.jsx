@@ -1,0 +1,182 @@
+import React, { useState } from "react";
+import {
+  Card,
+  CardContent,
+  TextField,
+  Button,
+  Typography,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  List,
+  ListItem,
+  ListItemText,
+  Chip,
+  Box,
+  IconButton,
+  Stack,
+  Paper,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+
+export default function BillingUI() {
+  const [patientId, setPatientId] = useState("12345");
+
+  const billItems = [
+    { description: "Consultation", qty: 1, unitCost: 500, tax: 50 },
+    { description: "Medication", qty: 2, unitCost: 100, tax: 5 },
+    { description: "Lab Test", qty: 1, unitCost: 300, tax: 30 },
+  ];
+
+  const total = billItems.reduce(
+    (acc, item) => acc + item.qty * item.unitCost + item.tax,
+    0
+  );
+
+  const billingHistory = [
+    { id: "1001", date: "03/01/2024", status: "Paid" },
+    { id: "1002", date: "15/01/2524", status: "Paid" },
+    { id: "1003", date: "20/02/2024", status: "Pending" },
+  ];
+
+  return (
+    <Box sx={{ backgroundColor: "#14532d", minHeight: "100vh", px: 4, py: 3 }}>
+      {/* Header Line */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
+          mb: 2,
+        }}
+      >
+        <Typography variant="h5" fontWeight="bold" color="white">
+          Hospital Name
+        </Typography>
+        <Box sx={{ position: "absolute", left: 0 }}>
+          <IconButton sx={{ color: "white" }}>
+            <MenuIcon />
+          </IconButton>
+        </Box>
+      </Box>
+
+      {/* White Navigation Strip */}
+      <Paper
+        elevation={3}
+        sx={{
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+          backgroundColor: "white",
+          padding: 2,
+          borderRadius: 2,
+          mb: 3,
+        }}
+      >
+        {["Billing EMR", "Appointment", "Patient"].map((text) => (
+          <Typography key={text} variant="subtitle1" fontWeight="bold" color="black">
+            {text}
+          </Typography>
+        ))}
+      </Paper>
+
+      {/* Cards Grid */}
+      <Stack
+        direction={{ xs: "column", md: "row" }}
+        spacing={3}
+        justifyContent="space-between"
+      >
+        {/* Bill Search */}
+        <Card sx={{ flex: 1, borderRadius: 3, boxShadow: 4 }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Bill Search
+            </Typography>
+            <TextField fullWidth label="Patient ID" margin="normal" />
+            <TextField fullWidth label="Date Range" margin="normal" />
+            <TextField fullWidth label="Token No." margin="normal" />
+          </CardContent>
+        </Card>
+
+        {/* Generate Bill */}
+        <Card sx={{ flex: 2, borderRadius: 3, boxShadow: 4 }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Generate Bill
+            </Typography>
+            <TextField
+              fullWidth
+              label="Patient ID"
+              margin="normal"
+              value={patientId}
+              onChange={(e) => setPatientId(e.target.value)}
+            />
+            <Button variant="contained" color="primary">
+              + Add Item
+            </Button>
+            <Table size="small" sx={{ mt: 2 }}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Description</TableCell>
+                  <TableCell>Qty</TableCell>
+                  <TableCell>Unit Cost</TableCell>
+                  <TableCell>Tax</TableCell>
+                  <TableCell>Total</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {billItems.map((item, i) => (
+                  <TableRow key={i}>
+                    <TableCell>{item.description}</TableCell>
+                    <TableCell>{item.qty}</TableCell>
+                    <TableCell>{item.unitCost}</TableCell>
+                    <TableCell>{item.tax}</TableCell>
+                    <TableCell>{item.qty * item.unitCost + item.tax}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <Typography align="right" sx={{ mt: 2, fontWeight: "bold" }}>
+              Total: ₹{total}
+            </Typography>
+            <Button
+              variant="contained"
+              color="success"
+              fullWidth
+              sx={{ mt: 2 }}
+            >
+              Proceed Payment
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Patient Billing History */}
+        <Card sx={{ flex: 1, borderRadius: 3, boxShadow: 4 }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Patient Billing History
+            </Typography>
+            <List>
+              {billingHistory.map((bill) => (
+                <ListItem key={bill.id} divider>
+                  <ListItemText
+                    primary={`Bill #${bill.id}`}
+                    secondary={bill.date}
+                  />
+                  <Chip
+                    label={bill.status}
+                    color={bill.status === "Paid" ? "default" : "warning"}
+                    size="small"
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </CardContent>
+        </Card>
+      </Stack>
+    </Box>
+  );
+}
