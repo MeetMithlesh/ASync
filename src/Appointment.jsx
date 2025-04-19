@@ -16,6 +16,7 @@ import {
   Button,
   Avatar,
 } from "@mui/material";
+
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
@@ -24,7 +25,7 @@ const AppointmentDashboard = () => {
   return (
     <>
       {/* Top App Bar */}
-      <AppBar position="static" sx={{ backgroundColor: "#004d40" }}>
+      <AppBar position="static" sx={{ backgroundColor: "#14532d" }}>
         <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="menu">
             <MenuIcon />
@@ -51,7 +52,7 @@ const AppointmentDashboard = () => {
       </AppBar>
 
       {/* Main Content */}
-      <Box sx={{ backgroundColor: "#004d40", py: 4, minHeight: "100vh" }}>
+      <Box sx={{ backgroundColor: "#14532d", py: 4, minHeight: "100vh" }}>
         <Container maxWidth="xl">
           <Grid container spacing={2} alignItems="stretch">
             {/* Left Sidebar */}

@@ -21,11 +21,14 @@ import LoginPage from "./LoginPage";
 import Pharmacy from "./Pharmacy";
 import Lab from "./Lab";
 import LabPage from "./LabPage";
-import LoginApi from "./LoginApi";
+// import LoginApi from "./LoginApi";
 import Patient from "./SignInPage";
 import SignInPage from "./SignInPage";
 import CreatePatientPage from "./CreatePatientPage";
 import PatientForm from "./PatientForm";
+ 
+
+
 
 
 

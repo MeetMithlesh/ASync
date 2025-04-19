@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -21,61 +21,46 @@ import {
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 import PersonIcon from "@mui/icons-material/Person";
+import axios from "axios";
 
 const EMRDashboard = () => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("http://172.16.26.0:3001/get-emr") // replace with your actual endpoint
+      .then((res) => setData(res.data))
+      .catch((err) => console.error("Error fetching EMR data:", err));
+  }, []);
+
+  if (!data) return <Typography sx={{ p: 4 }}>Loading EMR...</Typography>;
+
+  const { patient, prescriptions, vitals, attachments } = data;
+
   return (
     <>
-      {/* Top App Bar */}
-      <AppBar position="static" sx={{ backgroundColor: "#004d40" }}>
+      <AppBar position="static" sx={{ backgroundColor: "#14532d" }}>
         <Toolbar>
-          <IconButton edge="start" color="inherit">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Hospital Name
-          </Typography>
+          <IconButton edge="start" color="inherit"><MenuIcon /></IconButton>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>Hospital Name</Typography>
           <Typography sx={{ mx: 2 }}>Billing</Typography>
           <Typography sx={{ mx: 2, fontWeight: "bold" }}>EMR</Typography>
           <Typography sx={{ mx: 2 }}>Appointment</Typography>
           <Typography sx={{ mx: 2 }}>Patient</Typography>
-          <IconButton color="inherit">
-            <NotificationsIcon />
-          </IconButton>
-          <IconButton color="inherit">
-            <PersonIcon />
-          </IconButton>
+          <IconButton color="inherit"><NotificationsIcon /></IconButton>
+          <IconButton color="inherit"><PersonIcon /></IconButton>
         </Toolbar>
       </AppBar>
 
-      {/* Main Content */}
-      <Box sx={{ backgroundColor: "#004d40", minHeight: "100vh", py: 4 }}>
+      <Box sx={{ backgroundColor: "#14532d", minHeight: "100vh", py: 4 }}>
         <Container maxWidth="xl">
-          <Grid container spacing={2} alignItems="stretch">
-            {/* Left Sidebar */}
+          <Grid container spacing={2}>
             <Grid item xs={12} md={2.5}>
-              <Paper
-                sx={{
-                  p: 2,
-                  height: "100%",
-                  minHeight: "100%",
-                  borderRadius: 3,
-                  backgroundColor: "#ffffff",
-                }}
-              >
-                <Typography variant="h6" sx={{ mb: 2 }}>
-                  Tags
-                </Typography>
+              <Paper sx={{ p: 2, height: "100%", borderRadius: 3 }}>
+                <Typography variant="h6" sx={{ mb: 2 }}>Tags</Typography>
                 <List>
-                  {["Allergies", "Follow-Up", "Diagnostic"].map((tag) => (
-                    <ListItem
-                      key={tag}
-                      sx={{
-                        backgroundColor: "#f5f5f5",
-                        borderRadius: 2,
-                        mb: 1,
-                        px: 2,
-                      }}
-                    >
+                  {["Allergies", "Follow-Up", "Diagnostic"].map(tag => (
+                    <ListItem key={tag} sx={{ backgroundColor: "#f5f5f5", borderRadius: 2, mb: 1, px: 2 }}>
                       <ListItemText primary={tag} />
                     </ListItem>
                   ))}
@@ -83,55 +68,23 @@ const EMRDashboard = () => {
               </Paper>
             </Grid>
 
-            {/* Center Content */}
             <Grid item xs={12} md={6.5}>
-              <Paper
-                sx={{
-                  p: 3,
-                  height: "100%",
-                  minHeight: "100%",
-                  borderRadius: 3,
-                  backgroundColor: "#ffffff",
-                }}
-              >
-                {/* Patient Info */}
+              <Paper sx={{ p: 3, height: "100%", borderRadius: 3 }}>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
-                    <Typography>
-                      <strong>Name:</strong> Rairi Sharma
-                    </Typography>
-                    <Typography>
-                      <strong>Age:</strong> 45
-                    </Typography>
-                    <Typography>
-                      <strong>Gender:</strong> Male
-                    </Typography>
-                    <Typography>
-                      <strong>Blood Group:</strong> B+
-                    </Typography>
-                    <Typography>
-                      <strong>Contact:</strong> +91-9876543210
-                    </Typography>
-                    <Typography>
-                      <strong>Allergies:</strong> Penicillin
-                    </Typography>
-                    <Typography>
-                      <strong>Chronic Conditions:</strong> Type 2 Diabetes,
-                      Hypertension
-                    </Typography>
-                    <Typography>
-                      <strong>Last Visit:</strong> 02-Apr-2025
-                    </Typography>
-                    <Typography>
-                      <strong>Next Visit:</strong> 16-Apr-2025
-                    </Typography>
+                    <Typography><strong>Name:</strong> {patient.name}</Typography>
+                    <Typography><strong>Age:</strong> {patient.age}</Typography>
+                    <Typography><strong>Gender:</strong> {patient.gender}</Typography>
+                    <Typography><strong>Blood Group:</strong> {patient.bloodGroup}</Typography>
+                    <Typography><strong>Contact:</strong> {patient.contact}</Typography>
+                    <Typography><strong>Allergies:</strong> {patient.allergies}</Typography>
+                    <Typography><strong>Chronic Conditions:</strong> {patient.conditions}</Typography>
+                    <Typography><strong>Last Visit:</strong> {patient.lastVisit}</Typography>
+                    <Typography><strong>Next Visit:</strong> {patient.nextVisit}</Typography>
                   </Grid>
 
-                  {/* Prescriptions Table */}
                   <Grid item xs={6}>
-                    <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                      <strong>Prescriptions</strong>
-                    </Typography>
+                    <Typography variant="subtitle1" sx={{ mb: 1 }}><strong>Prescriptions</strong></Typography>
                     <Table size="small">
                       <TableHead>
                         <TableRow>
@@ -142,40 +95,21 @@ const EMRDashboard = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        <TableRow>
-                          <TableCell>Metformin 500mg</TableCell>
-                          <TableCell>1 tablet</TableCell>
-                          <TableCell>Twice a day</TableCell>
-                          <TableCell>30 days</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>Amlodipine 5mg</TableCell>
-                          <TableCell>1 tablet</TableCell>
-                          <TableCell>Once a day</TableCell>
-                          <TableCell>30 days</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>Myospaz</TableCell>
-                          <TableCell>1 tablet</TableCell>
-                          <TableCell>When needed</TableCell>
-                          <TableCell>5 days</TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>Refresh Tears</TableCell>
-                          <TableCell>1 drop</TableCell>
-                          <TableCell>Every 4 hrs</TableCell>
-                          <TableCell>10 days</TableCell>
-                        </TableRow>
+                        {prescriptions.map((presc, idx) => (
+                          <TableRow key={idx}>
+                            <TableCell>{presc.medicine}</TableCell>
+                            <TableCell>{presc.dosage}</TableCell>
+                            <TableCell>{presc.frequency}</TableCell>
+                            <TableCell>{presc.duration}</TableCell>
+                          </TableRow>
+                        ))}
                       </TableBody>
                     </Table>
                   </Grid>
                 </Grid>
 
-                {/* Vitals Table */}
                 <Box mt={3}>
-                  <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                    <strong>Vitals History</strong>
-                  </Typography>
+                  <Typography variant="subtitle1" sx={{ mb: 1 }}><strong>Vitals History</strong></Typography>
                   <Table size="small">
                     <TableHead>
                       <TableRow>
@@ -187,79 +121,44 @@ const EMRDashboard = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      <TableRow>
-                        <TableCell>02-Apr-2025</TableCell>
-                        <TableCell>138/92</TableCell>
-                        <TableCell>130 mg/dL</TableCell>
-                        <TableCell>78 bpm</TableCell>
-                        <TableCell>72 kg</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>15-Mar-2025</TableCell>
-                        <TableCell>135/90</TableCell>
-                        <TableCell>125 mg/dL</TableCell>
-                        <TableCell>76 bpm</TableCell>
-                        <TableCell>73 kg</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>26-Feb-2025</TableCell>
-                        <TableCell>140/94</TableCell>
-                        <TableCell>145 mg/dL</TableCell>
-                        <TableCell>80 bpm</TableCell>
-                        <TableCell>74 kg</TableCell>
-                      </TableRow>
+                      {vitals.map((v, i) => (
+                        <TableRow key={i}>
+                          <TableCell>{v.date}</TableCell>
+                          <TableCell>{v.bp}</TableCell>
+                          <TableCell>{v.sugar}</TableCell>
+                          <TableCell>{v.pulse}</TableCell>
+                          <TableCell>{v.weight}</TableCell>
+                        </TableRow>
+                      ))}
                     </TableBody>
                   </Table>
                 </Box>
 
-                {/* Attachments */}
                 <Box mt={3}>
-                  <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                    <strong>Attachments</strong>
-                  </Typography>
+                  <Typography variant="subtitle1" sx={{ mb: 1 }}><strong>Attachments</strong></Typography>
                   <List dense>
-                    <ListItem>
-                      <ListItemText primary="✓ Latest Lab Report - Apr. 2025 (PDF)" />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemText primary="✓ Eye Scan Image (PNG)" />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemText primary="✓ Prescription PDF (Auto-guterated)" />
-                    </ListItem>
+                    {attachments.map((file, i) => (
+                      <ListItem key={i}>
+                        <ListItemText primary={`✓ ${file}`} />
+                      </ListItem>
+                    ))}
                   </List>
                 </Box>
               </Paper>
             </Grid>
 
-            {/* Right Sidebar */}
             <Grid item xs={12} md={3}>
-              <Paper
-                sx={{
-                  p: 3,
-                  height: "100%",
-                  minHeight: "100%",
-                  borderRadius: 3,
-                  textAlign: "center",
-                  backgroundColor: "#ffffff",
-                }}
-              >
-                <Avatar
-                  sx={{ width: 80, height: 80, margin: "auto", bgcolor: "#90a4ae" }}
-                />
-                <Typography variant="h6" mt={1}>
-                  John Smith
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  ID: #123456
-                </Typography>
+              <Paper sx={{ p: 3, height: "100%", borderRadius: 3, textAlign: "center" }}>
+                <Avatar sx={{ width: 80, height: 80, margin: "auto", bgcolor: "#90a4ae" }} />
+                <Typography variant="h6" mt={1}>{patient.name}</Typography>
+                <Typography variant="body2" color="text.secondary">ID: #{patient.id}</Typography>
                 <Box mt={2}>
                   <Typography>Date of Birth</Typography>
-                  <Typography>01/01/1380</Typography>
+                  <Typography>{patient.dob}</Typography>
                   <Typography mt={1}>Sex</Typography>
-                  <Typography>Male</Typography>
+                  <Typography>{patient.gender}</Typography>
                   <Typography mt={1}>Phone</Typography>
-                  <Typography>(123) 456-7890</Typography>
+                  <Typography>{patient.phone}</Typography>
                 </Box>
               </Paper>
             </Grid>

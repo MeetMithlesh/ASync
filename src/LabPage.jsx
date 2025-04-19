@@ -84,9 +84,9 @@ const Lab = () => {
                 <Typography variant="subtitle1" fontWeight="bold" gutterBottom>{patientName}</Typography>
                 {recentOrders
                   .filter(order => order.patient === patientName)
-                  .map((order) => {
+                  .map((order, index) => {
                     const testDetails = getTestDetails(order.test);
-                    const uniqueKey = `${order._id}`; // Use unique ID for each order
+                    const uniqueKey = `${order.patient}-${order.test}-${index}`; // ✅ Unique per entry
                     const isCompleted = completedOrders[uniqueKey];
 
                     return (

@@ -20,26 +20,40 @@ import {
   Paper,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import logo from "./assets/image/logoo.png";
+import axios from "axios";
 
 export default function BillingUI() {
   const [patientId, setPatientId] = useState("12345");
-
-  const billItems = [
-    { description: "Consultation", qty: 1, unitCost: 500, tax: 50 },
-    { description: "Medication", qty: 2, unitCost: 100, tax: 5 },
-    { description: "Lab Test", qty: 1, unitCost: 300, tax: 30 },
-  ];
+  const [billItems, setBillItems] = useState([]);
+  const [billingHistory, setBillingHistory] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const total = billItems.reduce(
     (acc, item) => acc + item.qty * item.unitCost + item.tax,
     0
   );
 
-  const billingHistory = [
-    { id: "1001", date: "03/01/2024", status: "Paid" },
-    { id: "1002", date: "15/01/2524", status: "Paid" },
-    { id: "1003", date: "20/02/2024", status: "Pending" },
-  ];
+  const fetchBillingData = async () => {
+    if (!patientId) return;
+
+    setLoading(true);
+    try {
+      // Replace with your actual backend endpoint
+      const response = await axios.get(
+        `http://localhost:5000/api/billing/${patientId}`
+      );
+
+      // Assuming the response looks like { billItems: [...], history: [...] }
+      setBillItems(response.data.billItems || []);
+      setBillingHistory(response.data.history || []);
+    } catch (error) {
+      console.error("Failed to fetch billing data:", error);
+      setBillItems([]);
+      setBillingHistory([]);
+    }
+    setLoading(false);
+  };
 
   return (
     <Box sx={{ backgroundColor: "#14532d", minHeight: "100vh", px: 4, py: 3 }}>
@@ -53,22 +67,19 @@ export default function BillingUI() {
           mb: 2,
         }}
       >
+        <Box sx={{ position: "absolute", left: 0 }}>
+          <Box component="img" src={logo} alt="Logo" sx={{ width: 100, height: 100 }} />
+        </Box>
         <Typography variant="h5" fontWeight="bold" color="white">
           Hospital Name
         </Typography>
-        <Box sx={{ position: "absolute", left: 0 }}>
-          <IconButton sx={{ color: "white" }}>
-            <MenuIcon />
-          </IconButton>
-        </Box>
       </Box>
 
-      {/* White Navigation Strip */}
+      {/* Navigation */}
       <Paper
         elevation={3}
         sx={{
           display: "flex",
-          justifyContent: "space-around",
           alignItems: "center",
           backgroundColor: "white",
           padding: 2,
@@ -76,8 +87,17 @@ export default function BillingUI() {
           mb: 3,
         }}
       >
-        {["Billing EMR", "Appointment", "Patient"].map((text) => (
-          <Typography key={text} variant="subtitle1" fontWeight="bold" color="black">
+        <IconButton sx={{ color: "black", mr: 2 }}>
+          <MenuIcon />
+        </IconButton>
+        {["Billing", "EMR", "Appointment", "Patient"].map((text) => (
+          <Typography
+            key={text}
+            variant="subtitle1"
+            fontWeight="bold"
+            color="black"
+            sx={{ mx: 2 }}
+          >
             {text}
           </Typography>
         ))}
@@ -95,18 +115,6 @@ export default function BillingUI() {
             <Typography variant="h6" gutterBottom>
               Bill Search
             </Typography>
-            <TextField fullWidth label="Patient ID" margin="normal" />
-            <TextField fullWidth label="Date Range" margin="normal" />
-            <TextField fullWidth label="Token No." margin="normal" />
-          </CardContent>
-        </Card>
-
-        {/* Generate Bill */}
-        <Card sx={{ flex: 2, borderRadius: 3, boxShadow: 4 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Generate Bill
-            </Typography>
             <TextField
               fullWidth
               label="Patient ID"
@@ -114,9 +122,32 @@ export default function BillingUI() {
               value={patientId}
               onChange={(e) => setPatientId(e.target.value)}
             />
-            <Button variant="contained" color="primary">
-              + Add Item
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{ mt: 2 }}
+              onClick={fetchBillingData}
+              disabled={loading}
+            >
+              {loading ? "Loading..." : "Search"}
             </Button>
+          </CardContent>
+        </Card>
+
+        {/* Bill Generation */}
+        <Card sx={{ flex: 2, borderRadius: 3, boxShadow: 4 }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Bill
+            </Typography>
+            <TextField
+              fullWidth
+              label="Patient ID"
+              margin="normal"
+              value={patientId}
+              disabled
+            />
             <Table size="small" sx={{ mt: 2 }}>
               <TableHead>
                 <TableRow>
@@ -153,7 +184,7 @@ export default function BillingUI() {
           </CardContent>
         </Card>
 
-        {/* Patient Billing History */}
+        {/* Billing History */}
         <Card sx={{ flex: 1, borderRadius: 3, boxShadow: 4 }}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
