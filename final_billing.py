@@ -25,12 +25,13 @@ try:
 except Exception as e:
     print(e)
  
-config_list = autogen.config_list_from_json(
-    env_or_file = "/Users/rishabh/Desktop/Async/agents/OAI_CONFIG_LIST.json",
-    filter_dict={
-        "model": ["gpt-3.5-turbo"]
-    },
-)
+config_list = [
+    {
+        "model": "meta-llama/llama-3-70b-instruct",
+        "api_key": "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",
+        "base_url": "https://openrouter.ai/api/v1"
+    }
+]
 
 llm_config = {
     "config_list" : config_list,
@@ -58,8 +59,7 @@ def get_patient_by_id(patient_id):
     return db.pats.find_one({"_id": patient_id})
 
 def store_bill(bill_data):
-    return db.pats.insert_one(bill_data).inserted_id
-
+    return db.bills.insert_one(bill_data).inserted_id
 
 
 @scheduler.register_for_execution()
@@ -90,26 +90,21 @@ def fetch_prices_from_db():
 @scheduler.register_for_execution()
 @assistant.register_for_llm(description = "you will generate bill by function generate_bill")
 
-def generate_bill(_id: int, date: str):
+
+def add_or_update_bill(_id: int, date: str):
     patient = get_patient_by_id(_id)
     if not patient:
-        return {"error": "Visit not found  TERMINATE"}
-    # print(patient)
+        return {"error": "Patient not found TERMINATE"}
 
     visits = patient.get("visits", [])
     visit = next((v for v in visits if v.get("date", "").lower() == date.lower()), None)
     if not visit:
         return {"error": "Visit not found for given date TERMINATE"}
-    print("hereeeeeee")
-    print(visit)
 
     prices = fetch_prices_from_db()
     name = patient.get("name", [])
-    bill = {
-        "name": name,
-        "_id": _id,
+    new_bill_rec = {
         "visit_date": date,
-        "total_amount": 0,
         "status": visit.get("status", "unpaid"),
         "Procedures": [],
         "Medications": [],
@@ -120,13 +115,28 @@ def generate_bill(_id: int, date: str):
     for section, key in [("Procedures", "procedures"), ("Medications", "medications"), ("LabTests", "lab_tests")]:
         for item in visit.get(key, []):
             cost = prices.get(item, 0)
-            bill[section].append({
-                "Description":   item,
+            new_bill_rec[section].append({
+                "Description": item,
                 "UnitCost": cost,
                 "TotalCost": cost
             })
-            bill["GrandTotal"] += cost
-    return f"{bill} TERMINATE"
+            new_bill_rec["GrandTotal"] += cost
+
+    existing_bill = db.bills.find_one({"_id": _id})
+    if existing_bill:
+        db.bills.update_one(
+            {"_id": _id},
+            {"$push": {"bill_rec": new_bill_rec}}
+        )
+        return f"Bill updated for patient {_id} TERMINATE"
+    else:
+        new_bill = {
+            "_id": _id,
+            "name": name,
+            "bill_rec": [new_bill_rec]
+        }
+        db.bills.insert_one(new_bill)
+        return f"New bill inserted for patient {_id} TERMINATE"
 
 # bill will be accessed by this variable names as bill 
     
@@ -140,9 +150,9 @@ scheduler.initiate_chats(
     [
         {
             "recipient" : assistant,
-            "message" : "give me bill of 1001 of date 25  april",
+            "message" : "give me bill of 1012 of date 20 april",
             "clear_history": True,
             "summary_method":"last_msg",
         }
     ]
-)   
+) 
