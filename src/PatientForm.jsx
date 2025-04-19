@@ -10,6 +10,7 @@ import {
   Alert,
 } from '@mui/material';
 import { MedicalServices, AddCircle, RemoveCircle } from '@mui/icons-material';
+import LabTestModal from './LabTestModal'
 
 const PatientVisitForm = () => {
   const patientList = [
@@ -77,10 +78,12 @@ const PatientVisitForm = () => {
       }
     }, 1000);
   };
-
+  
   return (
-    <Grid container justifyContent="center" sx={{ mt: 4 }}>
-      <Grid item xs={12} sm={10} md={8} lg={6}>
+    <Grid container justifyContent="center" sx={{ mt: 4,width
+      : '100%', maxWidth: 600, mx: 'auto', bgcolor: '#f5f5f5', borderRadius: 4, p: 2
+    }}>
+      <Grid item xs={12} sm={10} md={8} lg={6} sx={{ mx: 'auto',width: '100%' }}>
         {!finished ? (
           <Paper elevation={3} sx={{ p: 4, borderRadius: 4 }}>
             <Typography
@@ -88,7 +91,7 @@ const PatientVisitForm = () => {
               fontWeight="bold"
               gutterBottom
               sx={{ display: 'flex', alignItems: 'center', mb: 1 }}
-            >
+              >
               <MedicalServices sx={{ mr: 1 }} fontSize="large" />
               Patient Visit
             </Typography>
@@ -106,7 +109,7 @@ const PatientVisitForm = () => {
                     value={formData.diagnosis}
                     onChange={handleChange}
                     required
-                  />
+                    />
                 </Grid>
                 <Grid item>
                   <TextField
@@ -118,7 +121,7 @@ const PatientVisitForm = () => {
                     multiline
                     rows={4}
                     required
-                  />
+                    />
                 </Grid>
 
                 <Grid item>
@@ -135,7 +138,7 @@ const PatientVisitForm = () => {
                         label="Medicine Name"
                         value={med.name}
                         onChange={(e) => handleMedicineChange(index, 'name', e.target.value)}
-                      />
+                        />
                     </Grid>
                     <Grid item>
                       <TextField
@@ -143,7 +146,7 @@ const PatientVisitForm = () => {
                         label="Dosage"
                         value={med.dosage}
                         onChange={(e) => handleMedicineChange(index, 'dosage', e.target.value)}
-                      />
+                        />
                     </Grid>
                     <Grid item>
                       <TextField
@@ -166,7 +169,7 @@ const PatientVisitForm = () => {
                     variant="outlined"
                     startIcon={<AddCircle />}
                     onClick={addMedicine}
-                  >
+                    >
                     Add Medicine
                   </Button>
                 </Grid>
@@ -177,7 +180,7 @@ const PatientVisitForm = () => {
                     variant="contained"
                     color="success"
                     fullWidth
-                  >
+                    >
                     {currentIndex < patientList.length - 1 ? 'Submit & Next Patient' : 'Finish'}
                   </Button>
                 </Grid>
@@ -196,12 +199,13 @@ const PatientVisitForm = () => {
               variant="contained"
               color="primary"
               onClick={() => alert('You can now review data or return to dashboard.')}
-            >
+              >
               Done
             </Button>
           </Paper>
         )}
       </Grid>
+      <LabTestModal/>
 
       <Snackbar
         open={snackbar.open}
