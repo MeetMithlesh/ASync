@@ -8,8 +8,9 @@ DB_NAME = "test"
 client = MongoClient(uri, server_api=ServerApi('1'))
 db = client[DB_NAME]
 
-pathology = "Cardiology"  
-# vriddhi will remove this pathology variable and the pathology and time will be provided by API
+pathology = "Neurology"  
+doctor = "Dr. pillai"
+# vriddhi will remove this pathology and doctor variable and the pathology doctor and time will be provided by API
 
 try:
     client.admin.command('ping')
@@ -18,10 +19,13 @@ except Exception as e:
     print(e)
 
 # LLM config
-config_list = autogen.config_list_from_json(
-    env_or_file="/Users/rishabh/Desktop/Async/agents/OAI_CONFIG_LIST.json",
-    filter_dict={"model": ["gpt-3.5-turbo"]}
-)
+config_list = [
+    {
+        "model": "meta-llama/llama-3-70b-instruct",
+        "api_key": "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",
+        "base_url": "https://openrouter.ai/api/v1"
+    }
+]
 
 llm_config = {
     "config_list": config_list,
@@ -32,7 +36,7 @@ llm_config = {
 assistant = autogen.AssistantAgent(
     name="assistant",
     system_message="You are a hospital appointment assistant. You will help check and book appointment slots." \
-    "- pass the arguments like 2PM",
+    "- always pass the time in argument like 2PM",
     is_termination_msg=lambda x: x.get("content", "").strip().endswith("TERMINATE"),
     llm_config=llm_config,
 )
@@ -48,20 +52,17 @@ scheduler = autogen.UserProxyAgent(
 )
 @scheduler.register_for_execution()
 # Function 1: Check availability
-@assistant.register_for_llm(description="Check if a time slot is available with any doctor in the specified department.")
-def check_availability(time: str, pathology: str):
+@assistant.register_for_llm(description="Check if a time slot is available with a specific doctor in the given department.")
+def check_availability(time: str, pathology: str, doctor_name: str):
     cursor = db.appointment.find({"name": pathology})
-    available_doctors = []
-
     for doc in cursor:
         for doctor in doc.get("doctors", []):
-            if time in doctor.get("availableSlots", []):
-                available_doctors.append(f"{doctor['name']} in {doc['name']} department")
-
-    if available_doctors:
-        response = f"Slot {time} is available with: " + "; ".join(available_doctors)
-        book_response = book_slot(time)
-        return f"{response}\n{book_response}"
+            print("hereee")
+            print(time in doctor.get("availableSlots", []))
+            if doctor.get("name", "").lower() == doctor_name.lower() and time in doctor.get("availableSlots", []):
+                response = f"Slot {time} is available with {doctor_name} in {doc['name']} department."
+                book_response = book_slot(time, doctor_name)
+                return f"{response}\n{book_response}"
     return "Slot not available TERMINATE"
 
 
@@ -73,15 +74,11 @@ def check_availability(time: str, pathology: str):
 #                     return f"Available in {doc['name']} with {doctor['name']} TERMINATE"
 #     return "Not available TERMINATE"
 
-# Function 2: Book slot
-# @scheduler.register_for_execution()
-# @assistant.register_for_llm(description="Book a specific time slot with a doctor.")
-def book_slot(time: str):
+def book_slot(time: str, doctor_name: str):
     cursor = db.appointment.find()
     for doc in cursor:
         for doctor in doc.get("doctors", []):
-            if time in doctor.get("availableSlots", []):
-                # doctor["availableSlots"].remove(time)
+            if doctor.get("name", "").lower() == doctor_name.lower() and time in doctor.get("availableSlots", []):
                 db.appointment.update_one(
                     {"_id": doc["_id"]},
                     {"$set": {"doctors": doc["doctors"]}}
@@ -98,7 +95,7 @@ scheduler.initiate_chats(
     [
         {
             "recipient": assistant,
-            "message": f"check availability for 2PM in {pathology} department ",
+            "message": f"check availability of doctor {doctor} at 5PM in {pathology} department with Dr. mishra",
             "clear_history": True,
             "summary_method": "last_msg",
         }

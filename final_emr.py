@@ -17,11 +17,13 @@ except Exception as e:
     print(e)
 
 # LLM config
-config_list = autogen.config_list_from_json(
-    env_or_file="/Users/rishabh/Desktop/Async/agents/OAI_CONFIG_LIST.json",
-    filter_dict={"model": ["gpt-3.5-turbo"]}
-)
-
+config_list = [
+    {
+        "model": "meta-llama/llama-3-70b-instruct",
+        "api_key": "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",
+        "base_url": "https://openrouter.ai/api/v1"
+    }
+]
 llm_config = {
     "config_list": config_list,
     "timeout": 120
@@ -88,7 +90,7 @@ scheduler.initiate_chats(
     [
         {
             "recipient": assistant,
-            "message": "add a entry for id 1012 name krishabh sharma date 20 april having peelia having procedures blood pressure medications protein lab test blood test have unpaid bill",
+            "message": "add a entry for id 1001 name harsh sharma date 25 april having diagnosis corona having procedures blood pressure medications Paracetron and Azithomax ,lab test blood test have paid bill",
             
             "clear_history": True,
             "summary_method": "last_msg"
