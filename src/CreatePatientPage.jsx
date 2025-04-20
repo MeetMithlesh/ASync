@@ -68,8 +68,23 @@ const CreatePatientPage = () => {
         severity: "success",
       });
 
+      if (role === "Patient") {
+        setTimeout(() => {
+          navigate("/login/patient");
+        }, 1500);
+      } else if (role === "Doctor") {
+        setTimeout(() => {
+          navigate("/login/doctor");
+        }, 1500);
+      }
+      else if (role === "Receptionist") {
+        setTimeout(() => {
+          navigate("/login/receptionist");
+        }, 1500);
+      }
+
       setTimeout(() => {
-        navigate("/EMRform", { state: { patientId: formData.email } });
+        navigate("/emr", { state: { patientId: formData.email } });
       }, 1500);
     }, 500);
   };

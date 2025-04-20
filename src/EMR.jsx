@@ -22,11 +22,9 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 import PersonIcon from "@mui/icons-material/Person";
 import axios from "./axios";
-import { Link } from "react-router-dom";
 
 const EMRDashboard = () => {
   const [data, setData] = useState(null);
-  const [user, setUser] = useState(null);
 
   useEffect(() => {
     axios
@@ -35,19 +33,20 @@ const EMRDashboard = () => {
       .catch((err) => console.error("Error fetching EMR data:", err));
   }, []);
 
+  // const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    axios.get('/emr')
-      .then(res => {
-        setUser(res.data.user); // user is from decoded JWT
-      })
-      .catch(err => {
-        console.log("User not logged in", err.response?.data);
-        setUser(null);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios.get('/check-auth')
+  //     .then(res => {
+  //       setUser(res.data.user); // user is from decoded JWT
+  //     })
+  //     .catch(err => {
+  //       console.log("User not logged in", err.response?.data);
+  //       setUser(null);
+  //     });
+  // }, []);
 
-  if (!user) return <Link to="/login" ><p>Log In</p></Link>;
+
 
   if (!data) return <Typography sx={{ p: 4 }}>Loading EMR...</Typography>;
 

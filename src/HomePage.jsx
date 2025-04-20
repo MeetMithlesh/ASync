@@ -6,9 +6,9 @@ import {
   Box,
   Container,
   Grid,
-  Typography,
   Paper,
-  Avatar
+  Typography,
+  Avatar,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import RobotIcon from "@mui/icons-material/SmartToy";
@@ -117,7 +117,7 @@ const Navbar = () => (
         { name: "Billing", route: "/billing" },
         { name: "Appointment", route: "/appointment" },
         { name: "EMR", route: "/emr" },
-        { name: "Lab Test", route: "/labtest" },
+        { name: "Lab Test", route: "/lab" },
         { name: "Pharmacy", route: "/pharmacy" },
         { name: "Book Appointment", route: "/bookappointment" },
       ].map(({ name, route }, index) => (
@@ -221,7 +221,7 @@ export default function HomePage() {
             gap: 4,
             backgroundColor: "#2e7d32",
             color: "#fff",
-            boxShadow: "0 8px 20px rgba(0, 0, 0, 0.1)"
+            boxShadow: "0 8px 20px rgba(0, 0, 0, 0.1)",
           }}
         >
           <Box component="img" src={dr} alt="Doctor illustration" sx={{ width: { xs: "100%", md: "50%" }, maxWidth: 420, height: "auto" }} />
@@ -244,7 +244,23 @@ export default function HomePage() {
 
       <Container sx={{ py: 8 }}>
         <Grid container spacing={4} justifyContent="center" alignItems="stretch">
-          {[{ icon: <RobotIcon fontSize="xlarge" />, title: "EMR AGENT", points: ["Fast, context-aware record search", "Auto-updates across departments"] }, { icon: <CreditCardIcon fontSize="xlarge" />, title: "BILLING AGENT", points: ["Intelligent cost breakdowns", "Insurance-ready invoicing", "Real-time payment tracking"] }, { icon: <CalendarIcon fontSize="xlarge" />, title: "SCHEDULING AGENT", points: ["Smart resource allocation", "Conflict-free appointment setting", "Adaptive team coordination"] }].map((card, idx) => (
+          {[
+            {
+              icon: <RobotIcon fontSize="xlarge" />,
+              title: "EMR AGENT",
+              points: ["Fast, context-aware record search", "Auto-updates across departments"],
+            },
+            {
+              icon: <CreditCardIcon fontSize="xlarge" />,
+              title: "BILLING AGENT",
+              points: ["Intelligent cost breakdowns", "Insurance-ready invoicing", "Real-time payment tracking"],
+            },
+            {
+              icon: <CalendarIcon fontSize="xlarge" />,
+              title: "SCHEDULING AGENT",
+              points: ["Smart resource allocation", "Conflict-free appointment setting", "Adaptive team coordination"],
+            },
+          ].map((card, idx) => (
             <Grid item xs={12} md={4} key={idx} sx={{ display: "flex" }}>
               <FeatureCard {...card} />
             </Grid>
@@ -253,12 +269,21 @@ export default function HomePage() {
       </Container>
 
       <Box textAlign="center" sx={{ backgroundColor: "#f9f9f9", py: 8 }}>
-        <Typewriter texts={["AI-powered agents for seamless healthcare workflows.", "Faster patient care with intelligent coordination.", "Paperless, smart, and secure hospital operations."]} />
+        <Typewriter
+          texts={[
+            "AI-powered agents for seamless healthcare workflows.",
+            "Faster patient care with intelligent coordination.",
+            "Paperless, smart, and secure hospital operations.",
+          ]}
+        />
       </Box>
 
-      <Typography variant="h5" textAlign="center" fontWeight="bold" sx={{ mt: 8, mb: 3, fontSize: "2rem" }}>
-        Ready to transform your hospital operations with AI?
-      </Typography>
+      {/* Centered How it works */}
+      <Box textAlign="center" sx={{ mb: 4 }}>
+        <Typography variant="h5" fontWeight="bold" sx={{ fontSize: "2rem" }}>
+          How it works?
+        </Typography>
+      </Box>
 
       <Box display="flex" alignItems="center" justifyContent="center" gap={3} mb={4}>
         <StepBox number={1} title="Choose Role & Login" />
@@ -288,7 +313,17 @@ export default function HomePage() {
         <Grid container spacing={2} justifyContent="center">
           {["React", "Material-UI", "Node.js", "Express", "MongoDB", "JWT Auth"].map((tech, i) => (
             <Grid item key={i}>
-              <Paper elevation={2} sx={{ px: 4, py: 2, borderRadius: 3, fontWeight: "bold", color: "#2e7d32", border: "1px solid #c8e6c9" }}>
+              <Paper
+                elevation={2}
+                sx={{
+                  px: 4,
+                  py: 2,
+                  borderRadius: 3,
+                  fontWeight: "bold",
+                  color: "#2e7d32",
+                  border: "1px solid #c8e6c9",
+                }}
+              >
                 {tech}
               </Paper>
             </Grid>
@@ -296,9 +331,13 @@ export default function HomePage() {
         </Grid>
       </Container>
 
+      <Typography variant="h5" textAlign="center" fontWeight="bold" sx={{ mt: 8, mb: 3, fontSize: "2rem" }}>
+        Ready to transform your hospital operations with AI?
+      </Typography>
+
       <Box textAlign="center" mb={4}>
         <Typography variant="body2">
-          Built with <span style={{ color: "red" }}>❤️</span> using React & Material UI
+          Built with <span style={{ color: "red" }}>❤</span> using React & Material UI
         </Typography>
       </Box>
 

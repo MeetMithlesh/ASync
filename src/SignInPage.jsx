@@ -32,6 +32,7 @@ const SignInPage = () => {
 
     // TODO: Add API call to verify Patient ID and Password
     alert(`Signing in with ID: ${patientId} and Password: ${password}`);
+    window.location.href = '/emr'; // Redirect to home page after successful sign-in
 
   };
 

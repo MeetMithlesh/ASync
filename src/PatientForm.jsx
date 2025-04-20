@@ -82,18 +82,6 @@ const PatientVisitForm = () => {
   };
   
   return (
-<<<<<<< HEAD
-    <Grid container justifyContent="center" sx={{ backgroundColor: '#14532d', minHeight: '100vh', py: 6 }}>
-      <Grid item xs={12} sm={10} md={9} lg={8}>
-        {!finished ? (
-          <Paper elevation={4} sx={{ p: 4, borderRadius: 4, backgroundColor: '#ffffff' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-              <MedicalServices sx={{ color: '#16a34a', mr: 1 }} fontSize="large" />
-              <Typography variant="h4" fontWeight="bold">Patient Visit</Typography>
-            </Box>
-
-            <Typography variant="subtitle1" sx={{ mb: 3, color: '#4b5563' }}>
-=======
     <Grid container justifyContent="center" sx={{ mt: 4,width
       : '100%', maxWidth: 600, mx: 'auto', bgcolor: '#f5f5f5', borderRadius: 4, p: 2
     }}>
@@ -110,7 +98,7 @@ const PatientVisitForm = () => {
               Patient Visit
             </Typography>
             <Typography variant="subtitle1" sx={{ mb: 3 }}>
->>>>>>> b58612ea0b6d9846ae042af063a53d9bdde8b5b7
+
               {currentPatient.name} (ID: {currentPatient.patientId})
             </Typography>
 
@@ -125,14 +113,10 @@ const PatientVisitForm = () => {
                     value={formData.diagnosis}
                     onChange={handleChange}
                     required
-<<<<<<< HEAD
-                    sx={{ mb: 3 }}
-                  />
-=======
                     />
                 </Grid>
                 <Grid item>
->>>>>>> b58612ea0b6d9846ae042af063a53d9bdde8b5b7
+
                   <TextField
                     fullWidth
                     label="Symptoms"
@@ -149,52 +133,6 @@ const PatientVisitForm = () => {
                 <Grid item xs={12} md={6}>
                   <Typography variant="h6" sx={{ mb: 2 }}>Prescribed Medicines</Typography>
 
-<<<<<<< HEAD
-                  {formData.medicines.map((med, index) => (
-                    <Paper
-                      key={index}
-                      sx={{
-                        p: 2,
-                        mb: 2,
-                        backgroundColor: '#f0fdfa',
-                        border: '1px solid #a7f3d0',
-                        borderRadius: 2,
-                      }}
-                    >
-                      <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                          <TextField
-                            fullWidth
-                            label="Medicine Name"
-                            value={med.name}
-                            onChange={(e) => handleMedicineChange(index, 'name', e.target.value)}
-                          />
-                        </Grid>
-                        <Grid item xs={6}>
-                          <TextField
-                            fullWidth
-                            label="Dosage"
-                            value={med.dosage}
-                            onChange={(e) => handleMedicineChange(index, 'dosage', e.target.value)}
-                          />
-                        </Grid>
-                        <Grid item xs={6}>
-                          <TextField
-                            fullWidth
-                            label="Duration"
-                            value={med.duration}
-                            onChange={(e) => handleMedicineChange(index, 'duration', e.target.value)}
-                          />
-                        </Grid>
-                        <Grid item xs={12} textAlign="right">
-                          <IconButton onClick={() => removeMedicine(index)} aria-label="remove">
-                            <RemoveCircle color="error" />
-                          </IconButton>
-                        </Grid>
-                      </Grid>
-                    </Paper>
-                  ))}
-=======
                 {formData.medicines.map((med, index) => (
                   <React.Fragment key={index}>
                     <Grid item>
@@ -228,18 +166,12 @@ const PatientVisitForm = () => {
                     </Grid>
                   </React.Fragment>
                 ))}
->>>>>>> b58612ea0b6d9846ae042af063a53d9bdde8b5b7
 
                   <Button
                     variant="outlined"
                     startIcon={<AddCircle />}
                     onClick={addMedicine}
-<<<<<<< HEAD
-                    sx={{ mt: 1 }}
-                  >
-=======
                     >
->>>>>>> b58612ea0b6d9846ae042af063a53d9bdde8b5b7
                     Add Medicine
                   </Button>
                 </Grid>
@@ -256,12 +188,7 @@ const PatientVisitForm = () => {
                     size="large"
                     color="success"
                     fullWidth
-<<<<<<< HEAD
-                    sx={{ py: 1.5 }}
-                  >
-=======
                     >
->>>>>>> b58612ea0b6d9846ae042af063a53d9bdde8b5b7
                     {currentIndex < patientList.length - 1 ? 'Submit & Next Patient' : 'Finish'}
                   </Button>
                 </Grid>

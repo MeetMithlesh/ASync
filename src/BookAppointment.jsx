@@ -25,8 +25,24 @@ const LoginPage = () => {
   const [patientType, setPatientType] = useState("");
   const [showForm, setShowForm] = useState(false);
 
+  // Add this at the top (below useState)
+const departmentDoctors = {
+  cardiology: ["Dr. Mehta", "Dr. Roshan Singh Sodhi"],
+  neurology: ["Dr. Jethalal"],
+  orthopedics: ["Dr. Haathi"],
+  pediatrics: ["Dr. Babita"],
+  general: ["Dr. Mehta", "Dr. Babita", "Dr. Jethalal"],
+};
+
+
   const bookedSlots = ["09:00", "13:00", "11:00"];
   const allSlots = ["09:00", "10:30", "13:00", "15:30", "11:00", "14:00"];
+
+  const handleDepartmentChange = (e) => {
+    setDepartment(e.target.value);
+    setDoctor(""); // reset doctor when department changes
+  };
+  
 
   const handlePatientTypeChange = (_, newType) => {
     if (newType) {
@@ -52,10 +68,11 @@ const LoginPage = () => {
     };
     console.log(data);
     axios
-      .post("http://172.16.26.0:3001/book-appointment", data)
+      .post("http://localhost:3001/book-appointment", data)
       .then((response) => {
         console.log("Appointment booked successfully:", response.data);
         alert("Appointment booked successfully!");
+        setTimeout(() => window.location.href = '/emr', 1000); // Redirect to EMR page after booking
         // Reset form
         setPreferredSlot("");
         setDepartment("");
@@ -63,6 +80,7 @@ const LoginPage = () => {
         setPatientType("");
         setPatientId("");
         setShowForm(false);
+        
       })
       .catch((error) => {
         console.error("Error booking appointment:", error);
@@ -162,7 +180,7 @@ const LoginPage = () => {
                     </Select>
                   </FormControl>
 
-                  <FormControl fullWidth>
+                  {/* <FormControl fullWidth>
                     <InputLabel sx={{ color: "#14532d" }}>
                       Select Doctor
                     </InputLabel>
@@ -178,7 +196,27 @@ const LoginPage = () => {
                       <MenuItem value="Dr. Haathi">Dr. Haathi</MenuItem>
                       <MenuItem value="Dr. Sodhi">Dr. Roshan Singh Sodhi</MenuItem>
                     </Select>
-                  </FormControl>
+                  </FormControl> */}
+
+<FormControl fullWidth disabled={!department}>
+  <InputLabel sx={{ color: "#14532d" }}>
+    Select Doctor
+  </InputLabel>
+  <Select
+    value={doctor}
+    onChange={(e) => setDoctor(e.target.value)}
+    label="Select Doctor"
+    sx={{ color: "#14532d" }}
+  >
+    {department &&
+      departmentDoctors[department]?.map((doc) => (
+        <MenuItem key={doc} value={doc}>
+          {doc}
+        </MenuItem>
+      ))}
+  </Select>
+</FormControl>
+
 
                   <Box>
                     <Typography

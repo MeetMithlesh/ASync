@@ -16,13 +16,9 @@ import Appointment from "./Appointment";
 import EMR from "./EMR";
 // import Home from  "./Home";
 import Doctor from "./Doctor";
-<<<<<<< HEAD
 import HomePage from "./HomePage";
+// import LoginPage from "./LoginPage";
 import BookAppointment from "./BookAppointment";
-=======
-import HomePage from "./Home";
-import LoginPage from "./LoginPage";
->>>>>>> b58612ea0b6d9846ae042af063a53d9bdde8b5b7
 import Pharmacy from "./Pharmacy";
 import Lab from "./Lab";
 import LabPage from "./LabPage";
@@ -60,17 +56,9 @@ function App() {
       <Route path="/doctor/dashboard" element={<Doctor/>}></Route>
       <Route path="/lab" element={<LabPage/>}></Route>
       <Route path="/pharmacy" element={<Pharmacy/>}></Route>
-<<<<<<< HEAD
-      <Route path="/patient" element={<SignInPage/>}></Route>
-      <Route path="/patientc" element={<CreatePatientPage/>}></Route>
-      <Route path="/patientform" element={<PatientForm/>}></Route>
-      <Route path="/receptionist" element={<Receptionist/>}></Route>
-      {/* <Route path="/profile" element={<Profile/>}></Route> */}
-=======
       <Route path="/login" element={<SignInPage/>}></Route>
       <Route path="/register" element={<CreatePatientPage/>}></Route>
       <Route path="/EMRform" element={<PatientForm/>}></Route>
->>>>>>> b58612ea0b6d9846ae042af063a53d9bdde8b5b7
      </Routes>
 
 
