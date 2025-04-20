@@ -270,7 +270,6 @@ def generate_billing(req: BillingRequest):
         # )
         # sequence_number = str(counter["sequence_value"]).zfill(4)
         # bill_id = f"{req._id}{sequence_number}"
-        print("here2")
         # counter = db.counters.find_one_and_update(
         # {"_id": "billId"},
         # {"$inc": {"sequence_value": 1}},
@@ -281,7 +280,6 @@ def generate_billing(req: BillingRequest):
         # bill_id = f"{BillingRequest.id}{number}"
         # number = str(counter["sequence_value"]).zfill(4)
         # return f"{pat_id}{number}"
-        print("here3")
         new_bill = {
             # "bill_id": bill_id,
             "visit_date": req.date,
@@ -297,15 +295,13 @@ def generate_billing(req: BillingRequest):
                 cost = prices.get(item, 0)
                 new_bill[section].append({"Description": item, "UnitCost": cost, "TotalCost": cost})
                 new_bill["GrandTotal"] += cost
-        print("here5")
         existing = db.bills.find_one({"_id": req.id})
-        print("here6")
         if existing:
             db.bills.update_one({"_id": req.id}, {"$push": {"bill_rec": new_bill}})
-            return {"message": f"Bill updated for patient {req.id} "}
+            return {"message": f"Bill updated for patient {req.id}     {new_bill} "}
         else:
             db.bills.insert_one({"_id": req.id, "name": patient.get("name"), "bill_rec": [new_bill]})
-            return {"message": f"New bill inserted for patient {req.id} "}
+            return {"message": f"New bill inserted for patient {req.id}     {new_bill} "}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))  
