@@ -12,6 +12,7 @@ import {
   Divider,
 } from '@mui/material';
 import { MedicalServices, AddCircle, RemoveCircle } from '@mui/icons-material';
+import LabTestModal from './LabTestModal'
 
 const PatientVisitForm = () => {
   const patientList = [
@@ -79,8 +80,9 @@ const PatientVisitForm = () => {
       }
     }, 1000);
   };
-
+  
   return (
+<<<<<<< HEAD
     <Grid container justifyContent="center" sx={{ backgroundColor: '#14532d', minHeight: '100vh', py: 6 }}>
       <Grid item xs={12} sm={10} md={9} lg={8}>
         {!finished ? (
@@ -91,6 +93,24 @@ const PatientVisitForm = () => {
             </Box>
 
             <Typography variant="subtitle1" sx={{ mb: 3, color: '#4b5563' }}>
+=======
+    <Grid container justifyContent="center" sx={{ mt: 4,width
+      : '100%', maxWidth: 600, mx: 'auto', bgcolor: '#f5f5f5', borderRadius: 4, p: 2
+    }}>
+      <Grid item xs={12} sm={10} md={8} lg={6} sx={{ mx: 'auto',width: '100%' }}>
+        {!finished ? (
+          <Paper elevation={3} sx={{ p: 4, borderRadius: 4 }}>
+            <Typography
+              variant="h4"
+              fontWeight="bold"
+              gutterBottom
+              sx={{ display: 'flex', alignItems: 'center', mb: 1 }}
+              >
+              <MedicalServices sx={{ mr: 1 }} fontSize="large" />
+              Patient Visit
+            </Typography>
+            <Typography variant="subtitle1" sx={{ mb: 3 }}>
+>>>>>>> b58612ea0b6d9846ae042af063a53d9bdde8b5b7
               {currentPatient.name} (ID: {currentPatient.patientId})
             </Typography>
 
@@ -105,8 +125,14 @@ const PatientVisitForm = () => {
                     value={formData.diagnosis}
                     onChange={handleChange}
                     required
+<<<<<<< HEAD
                     sx={{ mb: 3 }}
                   />
+=======
+                    />
+                </Grid>
+                <Grid item>
+>>>>>>> b58612ea0b6d9846ae042af063a53d9bdde8b5b7
                   <TextField
                     fullWidth
                     label="Symptoms"
@@ -116,13 +142,14 @@ const PatientVisitForm = () => {
                     multiline
                     rows={6}
                     required
-                  />
+                    />
                 </Grid>
 
                 {/* Medicines */}
                 <Grid item xs={12} md={6}>
                   <Typography variant="h6" sx={{ mb: 2 }}>Prescribed Medicines</Typography>
 
+<<<<<<< HEAD
                   {formData.medicines.map((med, index) => (
                     <Paper
                       key={index}
@@ -167,13 +194,52 @@ const PatientVisitForm = () => {
                       </Grid>
                     </Paper>
                   ))}
+=======
+                {formData.medicines.map((med, index) => (
+                  <React.Fragment key={index}>
+                    <Grid item>
+                      <TextField
+                        fullWidth
+                        label="Medicine Name"
+                        value={med.name}
+                        onChange={(e) => handleMedicineChange(index, 'name', e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item>
+                      <TextField
+                        fullWidth
+                        label="Dosage"
+                        value={med.dosage}
+                        onChange={(e) => handleMedicineChange(index, 'dosage', e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item>
+                      <TextField
+                        fullWidth
+                        label="Duration"
+                        value={med.duration}
+                        onChange={(e) => handleMedicineChange(index, 'duration', e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <IconButton onClick={() => removeMedicine(index)} aria-label="remove medicine">
+                        <RemoveCircle color="error" />
+                      </IconButton>
+                    </Grid>
+                  </React.Fragment>
+                ))}
+>>>>>>> b58612ea0b6d9846ae042af063a53d9bdde8b5b7
 
                   <Button
                     variant="outlined"
                     startIcon={<AddCircle />}
                     onClick={addMedicine}
+<<<<<<< HEAD
                     sx={{ mt: 1 }}
                   >
+=======
+                    >
+>>>>>>> b58612ea0b6d9846ae042af063a53d9bdde8b5b7
                     Add Medicine
                   </Button>
                 </Grid>
@@ -190,8 +256,12 @@ const PatientVisitForm = () => {
                     size="large"
                     color="success"
                     fullWidth
+<<<<<<< HEAD
                     sx={{ py: 1.5 }}
                   >
+=======
+                    >
+>>>>>>> b58612ea0b6d9846ae042af063a53d9bdde8b5b7
                     {currentIndex < patientList.length - 1 ? 'Submit & Next Patient' : 'Finish'}
                   </Button>
                 </Grid>
@@ -210,12 +280,13 @@ const PatientVisitForm = () => {
               variant="contained"
               color="primary"
               onClick={() => alert('You can now review data or return to dashboard.')}
-            >
+              >
               Done
             </Button>
           </Paper>
         )}
       </Grid>
+      <LabTestModal/>
 
       {/* Snackbar Alert */}
       <Snackbar

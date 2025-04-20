@@ -21,10 +21,12 @@ import {
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MenuIcon from "@mui/icons-material/Menu";
 import PersonIcon from "@mui/icons-material/Person";
-import axios from "axios";
+import axios from "./axios";
+import { Link } from "react-router-dom";
 
 const EMRDashboard = () => {
   const [data, setData] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     axios
@@ -32,6 +34,20 @@ const EMRDashboard = () => {
       .then((res) => setData(res.data))
       .catch((err) => console.error("Error fetching EMR data:", err));
   }, []);
+
+
+  useEffect(() => {
+    axios.get('/emr')
+      .then(res => {
+        setUser(res.data.user); // user is from decoded JWT
+      })
+      .catch(err => {
+        console.log("User not logged in", err.response?.data);
+        setUser(null);
+      });
+  }, []);
+
+  if (!user) return <Link to="/login" ><p>Log In</p></Link>;
 
   if (!data) return <Typography sx={{ p: 4 }}>Loading EMR...</Typography>;
 
@@ -52,10 +68,10 @@ const EMRDashboard = () => {
         </Toolbar>
       </AppBar>
 
-      <Box sx={{ backgroundColor: "#14532d", minHeight: "100vh", py: 4 }}>
-        <Container maxWidth="xl">
+      <Box sx={{ backgroundColor: "#14532d", minHeight: "100vh", py: 4 , display: "flex", justifyContent: "space-evenly"}}>
+        <Container maxWidth="xl" >
           <Grid container spacing={2}>
-            <Grid item xs={12} md={2.5}>
+            <Grid item xs={12} md={2.5} sx={{width: "15%"}}>
               <Paper sx={{ p: 2, height: "100%", borderRadius: 3 }}>
                 <Typography variant="h6" sx={{ mb: 2 }}>Tags</Typography>
                 <List>
@@ -147,7 +163,7 @@ const EMRDashboard = () => {
               </Paper>
             </Grid>
 
-            <Grid item xs={12} md={3}>
+            <Grid item xs={14} md={3}>
               <Paper sx={{ p: 3, height: "100%", borderRadius: 3, textAlign: "center" }}>
                 <Avatar sx={{ width: 80, height: 80, margin: "auto", bgcolor: "#90a4ae" }} />
                 <Typography variant="h6" mt={1}>{patient.name}</Typography>
