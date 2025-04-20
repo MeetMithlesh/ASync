@@ -1,0 +1,72 @@
+[
+  {
+    "_id": "a30b2861-288e-413a-ab66-c37b00bb3a86",
+    "name": "Cardiology",
+    "doctors": [
+      {
+        "id": "D001",
+        "name": "Dr. Mehta",
+        "availableSlots": [
+          "10AM",
+          "11AM"
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "20382ce9-3696-4fa3-b0be-8efbb0f1d4b1",
+    "name": "Neurology",
+    "doctors": [
+      {
+        "id": "D002",
+        "name": "Dr. Iyer",
+        "availableSlots": [
+          "9AM",
+          "1PM"
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "43d7ac78-54b6-4227-854b-a1ef35e49178",
+    "name": "Orthopedics",
+    "doctors": [
+      {
+        "id": "D003",
+        "name": "Dr. Patel",
+        "availableSlots": [
+          "2PM",
+          "4PM"
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "c38adb82-8404-49dd-a05f-4b8a24a976ff",
+    "name": "Pediatrics",
+    "doctors": [
+      {
+        "id": "D004",
+        "name": "Dr. Rao",
+        "availableSlots": [
+          "10AM",
+          "12PM"
+        ]
+      }
+    ]
+  },
+  {
+    "_id": "068722fd-ee85-4731-b686-d48b27fa0428",
+    "name": "Dermatology",
+    "doctors": [
+      {
+        "id": "D005",
+        "name": "Dr. Singh",
+        "availableSlots": [
+          "11AM",
+          "2PM"
+        ]
+      }
+    ]
+  }
+]
