@@ -27,7 +27,8 @@ import Patient from "./SignInPage";
 import SignInPage from "./SignInPage";
 import CreatePatientPage from "./CreatePatientPage";
 import PatientForm from "./PatientForm";
- import Receptionist from "./Receptionist";
+  import Receptionist from "./Receptionist";
+  import AppointmentViewer from "./appPatient";
 //  import Profile from "./Profile";
 
 
@@ -59,6 +60,7 @@ function App() {
       <Route path="/login" element={<SignInPage/>}></Route>
       <Route path="/register" element={<CreatePatientPage/>}></Route>
       <Route path="/EMRform" element={<PatientForm/>}></Route>
+      <Route path="/appPatient" element={<AppointmentViewer/>}></Route>
      </Routes>
 
 
