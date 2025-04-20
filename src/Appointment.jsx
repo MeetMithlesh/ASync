@@ -1,189 +1,138 @@
 import React from "react";
 import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Container,
-  Grid,
-  Paper,
   Box,
+  Typography,
   List,
   ListItem,
   ListItemText,
-  Checkbox,
-  TextField,
-  Button,
+  Paper,
   Avatar,
+  Divider,
 } from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
+import EventIcon from "@mui/icons-material/Event";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import MedicalServicesIcon from "@mui/icons-material/MedicalServices";
+import TodayIcon from "@mui/icons-material/Today";
 
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+const doctor = {
+  name: "Dr. M. Sharma",
+};
+
+const appointments = [
+  {
+    patientName: "Rajesh Patel",
+    date: "2025-04-19",
+    time: "10:00 AM",
+    reason: "Routine Check-up",
+  },
+  {
+    patientName: "Anita Rao",
+    date: "2025-04-19",
+    time: "11:00 AM",
+    reason: "Follow-up",
+  },
+  {
+    patientName: "Ravi Mehta",
+    date: "2025-04-19",
+    time: "01:00 PM",
+    reason: "Fever and cough",
+  },
+];
 
 const AppointmentDashboard = () => {
   return (
-    <>
-      {/* Top App Bar */}
-      <AppBar position="static" sx={{ backgroundColor: "#14532d" }}>
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Hospital Name
-          </Typography>
-          <Typography variant="body1" sx={{ mx: 2 }}>
-            Billing
-          </Typography>
-          <Typography variant="body1" sx={{ mx: 2 }}>
-            EMR
-          </Typography>
-          <Typography variant="body1" sx={{ mx: 2, fontWeight: "bold" }}>
-            Appointment
-          </Typography>
-          <Typography variant="body1" sx={{ mx: 2 }}>
-            Patient
-          </Typography>
-          <IconButton color="inherit">
-            <NotificationsIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-
-      {/* Main Content */}
-      <Box sx={{ backgroundColor: "#14532d", py: 4, minHeight: "100vh" }}>
-        <Container maxWidth="xl">
-          <Grid container spacing={2} alignItems="stretch">
-            {/* Left Sidebar */}
-            <Grid item xs={12} md={3}>
-              <Paper sx={{ p: 2, backgroundColor: "white", height: "100%" }}>
-                <TextField
-                  fullWidth
-                  variant="outlined"
-                  size="small"
-                  placeholder="Search"
-                  sx={{ mb: 2 }}
-                />
-                <Typography variant="subtitle1" gutterBottom>
-                  Doctors
-                </Typography>
-                <List dense>
-                  {["Dr. M. Sharma", "Dr. S. Gupta", "Dr. R. Patel"].map(
-                    (name) => (
-                      <ListItem key={name}>
-                        <Box
-                          sx={{
-                            width: 10,
-                            height: 10,
-                            borderRadius: "50%",
-                            backgroundColor: "#b2007f",
-                            mr: 1,
-                          }}
-                        />
-                        <ListItemText primary={name} />
-                      </ListItem>
-                    )
-                  )}
-                </List>
-
-                <Typography variant="subtitle1" gutterBottom sx={{ mt: 2 }}>
-                  Today's Appointments
-                </Typography>
-                {["Rajesh Patel", "Anita Rao", "Vikram Singh"].map((name) => (
-                  <ListItem key={name} dense>
-                    <Checkbox defaultChecked size="small" />
-                    <ListItemText primary={name} />
-                  </ListItem>
-                ))}
-                <Button variant="text" size="small" sx={{ mt: 1 }}>
-                  + Add New Patient
-                </Button>
-              </Paper>
-            </Grid>
-
-            {/* Center Calendar Area */}
-            <Grid item xs={12} md={6}>
-              <Paper sx={{ p: 2, backgroundColor: "white", height: "100%" }}>
-                <Button variant="contained" sx={{ mb: 2 }}>
-                  + New appointment
-                </Button>
-                <Box
-                  sx={{
-                    width: "100%",
-                    height: "600px",
-                    overflow: "hidden",
-                    borderRadius: 2,
-                    border: "1px solid #ccc",
-                  }}
-                >
-                  <iframe
-                    title="Google Calendar"
-                    src="https://calendar.google.com/calendar/embed?src=abc123%40group.calendar.google.com&ctz=Asia%2FKolkata"
-                    width="100%"
-                    height="100%"
-                    frameBorder="0"
-                    scrolling="no"
-                    style={{ border: 0 }}
-                  ></iframe>
-                </Box>
-              </Paper>
-            </Grid>
-
-            {/* Right Appointment Detail */}
-            <Grid item xs={12} md={3}>
-              <Paper sx={{ p: 2, backgroundColor: "white", height: "100%" }}>
-                <Box display="flex" alignItems="center" mb={2}>
-                  <Avatar sx={{ bgcolor: "#607d8b", mr: 2 }}>RP</Avatar>
-                  <Box>
-                    <Typography variant="subtitle1">Rajesh Patel</Typography>
-                    <Typography variant="caption">45</Typography>
-                  </Box>
-                </Box>
-                <Typography variant="body2">Doctor: Dr. M. Sharma</Typography>
-                <Typography variant="body2">Date: Apr 22, 2024</Typography>
-                <Typography variant="body2">Time: 9:00 AM – 9:30 AM</Typography>
-                <Typography variant="body2">Reason: Follow-up</Typography>
-
-                <Box mt={2}>
-                  <label>
-                    <Checkbox size="small" /> Reschedule
-                  </label>
-                </Box>
-
-                <Button
-                  variant="contained"
-                  color="error"
-                  fullWidth
-                  sx={{ mt: 2 }}
-                >
-                  Cancel Appointment
-                </Button>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
-
-      {/* Chat Button (Floating) */}
+    <Box sx={{ display: "flex", minHeight: "100vh", backgroundColor: "#14532d" }}>
+      {/* Left Sidebar - Doctor Info and Appointment List */}
       <Box
         sx={{
-          position: "fixed",
-          bottom: 20,
-          right: 20,
-          backgroundColor: "#00bcd4",
-          borderRadius: "50%",
-          width: 56,
-          height: 56,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          boxShadow: 3,
+          width: "25%",
+          minWidth: 260,
+          backgroundColor: "#ffffff",
+          p: 3,
+          borderRight: "1px solid #ccc",
         }}
       >
-        <ChatBubbleIcon sx={{ color: "white" }} />
+        <Typography variant="h5" fontWeight="bold" mb={3} color="#10b981">
+          Async Hospital
+        </Typography>
+
+        <Typography variant="h6" gutterBottom>
+          <MedicalServicesIcon sx={{ mr: 1, verticalAlign: "middle" }} />
+          Doctor
+        </Typography>
+        <ListItem
+          sx={{
+            borderRadius: 2,
+            backgroundColor: "#e0f7fa",
+            mb: 2,
+          }}
+        >
+          <Avatar sx={{ mr: 2, bgcolor: "#10b981" }}>
+            <PersonIcon />
+          </Avatar>
+          <ListItemText primary={doctor.name} />
+        </ListItem>
+
+        <Divider sx={{ my: 2 }} />
+
+        <Typography variant="h6" gutterBottom>
+          <TodayIcon sx={{ mr: 1, verticalAlign: "middle" }} />
+          Today’s Appointments
+        </Typography>
+        <List dense>
+          {appointments.map((appt, idx) => (
+            <ListItem key={idx}>
+              <ListItemText primary={appt.patientName} />
+            </ListItem>
+          ))}
+        </List>
       </Box>
-    </>
+
+      {/* Right Side - Appointment Details */}
+      <Box
+        sx={{
+          flexGrow: 1,
+          p: 4,
+          display: "flex",
+          flexDirection: "column",
+          gap: 3,
+        }}
+      >
+        <Typography variant="h4" fontWeight="bold" color="white" gutterBottom>
+          Appointments for {doctor.name}
+        </Typography>
+
+        {appointments.map((appt, idx) => (
+          <Paper
+            key={idx}
+            elevation={3}
+            sx={{
+              p: 3,
+              borderLeft: "6px solid #34d399",
+              backgroundColor: "#ecfdf5",
+              borderRadius: 3,
+            }}
+          >
+            <Typography variant="h6" color="primary">
+              {appt.patientName}
+            </Typography>
+            <Typography variant="body2">
+              <EventIcon fontSize="small" sx={{ mr: 1 }} />
+              Date: {appt.date}
+            </Typography>
+            <Typography variant="body2">
+              <AccessTimeIcon fontSize="small" sx={{ mr: 1 }} />
+              Time: {appt.time}
+            </Typography>
+            <Typography variant="body2">
+              <MedicalServicesIcon fontSize="small" sx={{ mr: 1 }} />
+              Reason: {appt.reason}
+            </Typography>
+          </Paper>
+        ))}
+      </Box>
+    </Box>
   );
 };
 

@@ -14,10 +14,10 @@ import {Routes , Route, Link} from "react-router-dom"
 import BillingUI from "./BillingUI";
 import Appointment from "./Appointment";
 import EMR from "./EMR";
-import Home from  "./Home";
+// import Home from  "./Home";
 import Doctor from "./Doctor";
 import HomePage from "./HomePage";
-import LoginPage from "./LoginPage";
+import BookAppointment from "./BookAppointment";
 import Pharmacy from "./Pharmacy";
 import Lab from "./Lab";
 import LabPage from "./LabPage";
@@ -26,7 +26,8 @@ import Patient from "./SignInPage";
 import SignInPage from "./SignInPage";
 import CreatePatientPage from "./CreatePatientPage";
 import PatientForm from "./PatientForm";
- 
+ import Receptionist from "./Receptionist";
+//  import Profile from "./Profile";
 
 
 
@@ -47,7 +48,7 @@ function App() {
       <Alert severity="error">Delete option is given!</Alert> */}
      <Routes>
       <Route path="/" element={<HomePage/>}></Route>
-      <Route path="/login" element={<LoginPage/>}></Route>
+      <Route path="/bookappointment" element={<BookAppointment/>}></Route>
       <Route path="/billing" element={<BillingUI/>}></Route>
       <Route path="/emr" element={<EMR/>}></Route>
       <Route path="/appointment" element={<Appointment/>}></Route>
@@ -57,6 +58,8 @@ function App() {
       <Route path="/patient" element={<SignInPage/>}></Route>
       <Route path="/patientc" element={<CreatePatientPage/>}></Route>
       <Route path="/patientform" element={<PatientForm/>}></Route>
+      <Route path="/receptionist" element={<Receptionist/>}></Route>
+      {/* <Route path="/profile" element={<Profile/>}></Route> */}
      </Routes>
 
 

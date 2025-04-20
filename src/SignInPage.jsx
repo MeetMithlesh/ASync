@@ -32,6 +32,7 @@ const SignInPage = () => {
 
     // TODO: Add API call to verify Patient ID and Password
     alert(`Signing in with ID: ${patientId} and Password: ${password}`);
+
   };
 
   const handleCreateId = () => {
@@ -41,7 +42,7 @@ const SignInPage = () => {
   return (
     <Box
       sx={{
-        background: 'linear-gradient(to right, #e0f7fa, #ffffff)',
+        background: ' #14532d ',
         height: '100vh',
         display: 'flex',
         justifyContent: 'center',
@@ -55,24 +56,31 @@ const SignInPage = () => {
         transition={{ duration: 0.6 }}
       >
         <Paper
-          elevation={6}
+          elevation={8}
           sx={{
-            borderRadius: 4,
-            padding: theme.spacing(4),
-            maxWidth: 400,
+            borderRadius: 6,
+            padding: theme.spacing(5),
+            maxWidth: 420,
             width: '100%',
             textAlign: 'center',
+            backgroundColor: '#ffffffee',
+            backdropFilter: 'blur(10px)',
           }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
-            <LocalHospitalIcon color="primary" fontSize="large" />
-            <Typography variant="h5" sx={{ ml: 1, fontWeight: 'bold' }}>
-              Async
-            </Typography>
-          </Box>
+          <motion.div
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+              <LocalHospitalIcon sx={{ color: '#2e7d32', fontSize: 40 }} />
+              <Typography variant="h5" sx={{ ml: 1, fontWeight: 'bold', color: '#2e7d32' }}>
+                Async 
+              </Typography>
+            </Box>
+          </motion.div>
 
-          <Typography variant="subtitle1" sx={{ mb: 3 }}>
-            Sign in to access your health records
+          <Typography variant="subtitle1" sx={{ mb: 4, color: '#4f4f4f' }}>
+            Access your health records securely
           </Typography>
 
           <TextField
@@ -95,30 +103,48 @@ const SignInPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             error={errors.password}
             helperText={errors.password ? 'Password is required' : ' '}
-            sx={{ mb: 2 }}
+            sx={{ mb: 3 }}
           />
 
           <Button
             variant="contained"
-            color="primary"
             fullWidth
             onClick={handleSignIn}
-            sx={{ mb: 1 }}
+            sx={{
+              mb: 2,
+              backgroundColor: '#2e7d32',
+              '&:hover': {
+                backgroundColor: '#1b5e20',
+              },
+              color: '#fff',
+              fontWeight: 'bold',
+              py: 1.5,
+              borderRadius: 3,
+            }}
           >
             Sign In
           </Button>
 
           <Button
             variant="outlined"
-            color="primary"
             fullWidth
             onClick={handleCreateId}
+            sx={{
+              color: '#2e7d32',
+              borderColor: '#2e7d32',
+              fontWeight: 'bold',
+              py: 1.5,
+              borderRadius: 3,
+              '&:hover': {
+                backgroundColor: '#e8f5e9',
+              },
+            }}
           >
             Create New ID
           </Button>
 
-          <Typography variant="body2" sx={{ mt: 3 }}>
-            <Link href="#" underline="hover">
+          <Typography variant="body2" sx={{ mt: 3, color: '#555' }}>
+            <Link href="#" underline="hover" color="primary">
               Having trouble signing in? Contact support.
             </Link>
           </Typography>

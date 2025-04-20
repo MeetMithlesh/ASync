@@ -68,7 +68,7 @@ export default function Home() {
         <Grid container spacing={4} alignItems="center">
           <Grid item xs={12} md={6}>
             <img
-              src="/images/Untitled_design__1_-removebg-preview 1.png"
+              src="/images/Untitled_design_1-removebg-preview 1.png"
               alt="Doctor"
               style={{ width: "100%", maxWidth: 300 }}
             />

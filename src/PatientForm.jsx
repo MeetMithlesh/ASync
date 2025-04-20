@@ -8,6 +8,8 @@ import {
   IconButton,
   Paper,
   Alert,
+  Box,
+  Divider,
 } from '@mui/material';
 import { MedicalServices, AddCircle, RemoveCircle } from '@mui/icons-material';
 
@@ -79,26 +81,23 @@ const PatientVisitForm = () => {
   };
 
   return (
-    <Grid container justifyContent="center" sx={{ mt: 4 }}>
-      <Grid item xs={12} sm={10} md={8} lg={6}>
+    <Grid container justifyContent="center" sx={{ backgroundColor: '#14532d', minHeight: '100vh', py: 6 }}>
+      <Grid item xs={12} sm={10} md={9} lg={8}>
         {!finished ? (
-          <Paper elevation={3} sx={{ p: 4, borderRadius: 4 }}>
-            <Typography
-              variant="h4"
-              fontWeight="bold"
-              gutterBottom
-              sx={{ display: 'flex', alignItems: 'center', mb: 1 }}
-            >
-              <MedicalServices sx={{ mr: 1 }} fontSize="large" />
-              Patient Visit
-            </Typography>
-            <Typography variant="subtitle1" sx={{ mb: 3 }}>
+          <Paper elevation={4} sx={{ p: 4, borderRadius: 4, backgroundColor: '#ffffff' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <MedicalServices sx={{ color: '#16a34a', mr: 1 }} fontSize="large" />
+              <Typography variant="h4" fontWeight="bold">Patient Visit</Typography>
+            </Box>
+
+            <Typography variant="subtitle1" sx={{ mb: 3, color: '#4b5563' }}>
               {currentPatient.name} (ID: {currentPatient.patientId})
             </Typography>
 
             <form onSubmit={handleSubmit}>
-              <Grid container direction="column" spacing={3}>
-                <Grid item>
+              <Grid container spacing={4}>
+                {/* Diagnosis and Symptoms */}
+                <Grid item xs={12} md={6}>
                   <TextField
                     fullWidth
                     label="Diagnosis"
@@ -106,9 +105,8 @@ const PatientVisitForm = () => {
                     value={formData.diagnosis}
                     onChange={handleChange}
                     required
+                    sx={{ mb: 3 }}
                   />
-                </Grid>
-                <Grid item>
                   <TextField
                     fullWidth
                     label="Symptoms"
@@ -116,67 +114,83 @@ const PatientVisitForm = () => {
                     value={formData.symptoms}
                     onChange={handleChange}
                     multiline
-                    rows={4}
+                    rows={6}
                     required
                   />
                 </Grid>
 
-                <Grid item>
-                  <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
-                    Prescribed Medicines
-                  </Typography>
-                </Grid>
+                {/* Medicines */}
+                <Grid item xs={12} md={6}>
+                  <Typography variant="h6" sx={{ mb: 2 }}>Prescribed Medicines</Typography>
 
-                {formData.medicines.map((med, index) => (
-                  <React.Fragment key={index}>
-                    <Grid item>
-                      <TextField
-                        fullWidth
-                        label="Medicine Name"
-                        value={med.name}
-                        onChange={(e) => handleMedicineChange(index, 'name', e.target.value)}
-                      />
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                        fullWidth
-                        label="Dosage"
-                        value={med.dosage}
-                        onChange={(e) => handleMedicineChange(index, 'dosage', e.target.value)}
-                      />
-                    </Grid>
-                    <Grid item>
-                      <TextField
-                        fullWidth
-                        label="Duration"
-                        value={med.duration}
-                        onChange={(e) => handleMedicineChange(index, 'duration', e.target.value)}
-                      />
-                    </Grid>
-                    <Grid item sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                      <IconButton onClick={() => removeMedicine(index)} aria-label="remove medicine">
-                        <RemoveCircle color="error" />
-                      </IconButton>
-                    </Grid>
-                  </React.Fragment>
-                ))}
+                  {formData.medicines.map((med, index) => (
+                    <Paper
+                      key={index}
+                      sx={{
+                        p: 2,
+                        mb: 2,
+                        backgroundColor: '#f0fdfa',
+                        border: '1px solid #a7f3d0',
+                        borderRadius: 2,
+                      }}
+                    >
+                      <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                          <TextField
+                            fullWidth
+                            label="Medicine Name"
+                            value={med.name}
+                            onChange={(e) => handleMedicineChange(index, 'name', e.target.value)}
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            fullWidth
+                            label="Dosage"
+                            value={med.dosage}
+                            onChange={(e) => handleMedicineChange(index, 'dosage', e.target.value)}
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <TextField
+                            fullWidth
+                            label="Duration"
+                            value={med.duration}
+                            onChange={(e) => handleMedicineChange(index, 'duration', e.target.value)}
+                          />
+                        </Grid>
+                        <Grid item xs={12} textAlign="right">
+                          <IconButton onClick={() => removeMedicine(index)} aria-label="remove">
+                            <RemoveCircle color="error" />
+                          </IconButton>
+                        </Grid>
+                      </Grid>
+                    </Paper>
+                  ))}
 
-                <Grid item>
                   <Button
                     variant="outlined"
                     startIcon={<AddCircle />}
                     onClick={addMedicine}
+                    sx={{ mt: 1 }}
                   >
                     Add Medicine
                   </Button>
                 </Grid>
+              </Grid>
 
-                <Grid item>
+              <Divider sx={{ my: 4 }} />
+
+              {/* Submit Button */}
+              <Grid container justifyContent="center">
+                <Grid item xs={12} md={6}>
                   <Button
                     type="submit"
                     variant="contained"
+                    size="large"
                     color="success"
                     fullWidth
+                    sx={{ py: 1.5 }}
                   >
                     {currentIndex < patientList.length - 1 ? 'Submit & Next Patient' : 'Finish'}
                   </Button>
@@ -185,8 +199,8 @@ const PatientVisitForm = () => {
             </form>
           </Paper>
         ) : (
-          <Paper elevation={3} sx={{ p: 4, borderRadius: 4, textAlign: 'center' }}>
-            <Typography variant="h4" fontWeight="bold" gutterBottom>
+          <Paper elevation={4} sx={{ p: 4, borderRadius: 4, textAlign: 'center', backgroundColor: '#14532d' }}>
+            <Typography variant="h4" fontWeight="bold" gutterBottom color="success.main">
               All Visits Completed 🎉
             </Typography>
             <Typography variant="subtitle1" sx={{ mb: 3 }}>
@@ -203,12 +217,15 @@ const PatientVisitForm = () => {
         )}
       </Grid>
 
+      {/* Snackbar Alert */}
       <Snackbar
         open={snackbar.open}
         autoHideDuration={3000}
         onClose={() => setSnackbar({ ...snackbar, open: false })}
       >
-        <Alert severity={snackbar.severity}>{snackbar.message}</Alert>
+        <Alert severity={snackbar.severity} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
       </Snackbar>
     </Grid>
   );
