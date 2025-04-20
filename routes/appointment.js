@@ -90,7 +90,8 @@ router.delete('/appointments/:patientId/cancel', async (req, res) => {
 router.get('/appointments/:patientId', async (req, res) => {
     try {
         await connectDB();
-        const appointment = await BookedAppointment.findOne({patientId:req.params.patientId});
+        const appointment = await BookedAppointment.findOne({patient_id:req.params.patientId});
+        console.log('🔍 Incoming req.params:', appointment);
         if (!appointment) {
             return res.status(404).json({ message: 'Appointment not found' });
         }

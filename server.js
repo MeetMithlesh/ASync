@@ -205,8 +205,8 @@ app.post('/patient', (req, res) => {
     console.log("Here is the patient ");
 });
 
-app.get('/emr', verifyToken, (req, res) => {
-    console.log('🔍 HEHEHEHE');
+app.get('/emr', (req, res) => {
+    // console.log('🔍 HEHEHEHE');
     const token = req.cookies.token || req.headers['authorization'];
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
