@@ -9,8 +9,8 @@ router.get("/:appointmentId/:doctorId", async (req, res) => {
   const { name, doctorId } = req.params;
   try {
     connectDB();
-    console.log("🔍 Incoming req.params:", appointmentId);
-    const appointment = await Appointment.findById(name);
+    console.log("🔍 Incoming req.params:", name);
+    const appointment = await Appointment.findOne(name);
 
     if (!appointment) {
       return res.status(404).json({ message: "Appointment not found" });
