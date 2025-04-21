@@ -10,8 +10,30 @@ DOCUMENTATION
 KRIYETA 4.0
 Healthcare Innovation
 CIPHERNAUTS | 2025
+<h3>App Demo</h3>
+<p>This is a multi-agent AI system built using Microsoft AutoGen, where 3 autonomous agents collaborate to automate hospital workflows. The solution is composed of the following core components:
+🧠 Agents Involved:
+1.	AssistantAgent – Performs main coordination and logic handling for hospital tasks
+2.	UserProxyAgent – Interfaces between users and the system; interprets requests
+3.	Custom MongoAgent – Connects and interacts with a MongoDB database to store and retrieve patient/EMR/billing data</p>
+<h3>Home Page</h3>
 
 
+https://github.com/user-attachments/assets/78f22ecc-2992-4685-b612-0f3e7c2ec9ca
+
+<h3>Billing Page</h3>
+https://github.com/user-attachments/assets/e450f531-dcc1-46be-ad89-b0bc2633256e
+<h3>EMR page</h3>
+![Screenshot 2025-04-19 184855](https://github.com/user-attachments/assets/6e7873a7-f5be-4b57-bc5e-2c08366c67fe)
+
+<h3>Appointments</h3>
+![Screenshot 2025-04-21 190838](https://github.com/user-attachments/assets/c1437727-df02-454e-88d7-8576201b0f2d)
+
+<h3>Lab Test</h3>
+![Screenshot 2025-04-21 191028](https://github.com/user-attachments/assets/06e6ec46-e097-4e53-8faf-4a4a3593df27)
+
+<h3>Pharmacy</h3>
+![Screenshot 2025-04-21 191045](https://github.com/user-attachments/assets/d05a2d0b-dcbf-4d5f-a83a-d87f42d2356b)
 PROBLEM STATEMENT
 Domain : Healthcare Innovation: Agentic AI Framework for Hospital Workflow Automation
 Problem Statement: 
