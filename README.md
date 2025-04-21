@@ -1,6 +1,8 @@
 # ASync by Ciphernauts
-This repository uses multiple branches to manage different features and modules of the Async project.
 
+> [!IMPORTANT]
+> <span style="color: red:">This repository uses multiple branches to manage different features and modules of the Async project.</span>
+ 
 Links to all the repository branches 
 1. <a href="https://github.com/MeetMithlesh/ASync/tree/backend">Backend Branch<a/>
 1. <a href="https://github.com/MeetMithlesh/ASync/tree/frontend">Frontend Branch<a/>
